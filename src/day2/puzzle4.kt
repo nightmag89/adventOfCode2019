@@ -7,18 +7,31 @@ private const val OPCODE_MULTIPLY = 2
 private const val OPCODE_HALT = 99
 
 fun main() {
-    val filePath = "src/day2/input_puzzle3.txt"
+    val filePath = "src/day2/input_puzzle4.txt"
     val intCodes = File(filePath).readText(Charsets.UTF_8)
         .split(",")
         .map { it.toInt() }
         .toIntArray()
 
-    // "before running the program, replace position 1 with the value 12 and replace position 2 with the value 2"
-    intCodes[1] = 12
-    intCodes[2] = 2
 
+    for (noun in 0..99) {
+        for (verb in 0..99) {
+            intCodes[1] = noun
+            intCodes[2] = verb
+
+            if (runIntCodeProgram(intCodes.copyOf()) == 19690720) {
+                println("noun: $noun")
+                println("verb: $verb")
+                break
+            }
+        }
+    }
+
+
+}
+
+fun runIntCodeProgram(intCodes: IntArray): Int {
     var i = 0;
-
     while (true) {
         if (intCodes[i] == OPCODE_HALT)
             break
@@ -36,5 +49,5 @@ fun main() {
             i += 4
         }
     }
-    print(intCodes[0])
+    return intCodes[0]
 }
